@@ -1,5 +1,7 @@
 #include "Hooks.h"
 #include "Ptrs.h"
+#include "Structs.h"
+#include "CommandHandler.h"
 #include <string>
 #include <sstream>
 
@@ -34,10 +36,20 @@ __declspec(naked) void MyHandlePacket_stub()
     }
 }
 
-int __stdcall MyHandlePacket(DWORD a1, DWORD a2, BYTE* packet, DWORD len)
+int __stdcall MyHandlePacket(Game* game, Unit* unit, BYTE* packet, DWORD len)
 {
     if (*packet == 0x15)
-        return 1;   // block
+    {
+        if (len > 7 && packet[3] == '.')
+        {
+            std::string message;
+            message.assign((char const*)packet + 4, len - 7);
+            CommandHandler::HandleCommand(game, unit, message);
+            return 1;
+        }
+
+        return 0;   // block
+    }
 
     return 0;
 }

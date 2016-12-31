@@ -3,15 +3,14 @@
 
 void DefineOffsets()
 {
-    for (auto offs = (DWORD*)OFFSETS_START; offs && offs <= (DWORD*)OFFSETS_END; ++offs)
+    for (auto itr : PtrInitInfo::InitInfos)
     {
-        auto dllIndex = *offs & 0xF;
-        *offs >>= 8;
-        if (*offs == 0xBADD)
+        PtrInitInfo const* init = itr.second;
+        if (!init->Offset)
             continue;
 
         char const* dllName = "";
-        switch (dllIndex)
+        switch (init->DllIndex)
         {
             case D2Server: dllName = "d2server.dll"; break;
             case Bnclient: dllName = "Bnclient.dll"; break;
@@ -27,7 +26,7 @@ void DefineOffsets()
                 assert(false && "Unknown dll index");
         }
 
-        *offs = GetModuleOffset(dllName, *offs);
+        *(DWORD*)itr.first = GetModuleOffset(dllName, init->Offset);
     }
 }
 
@@ -35,8 +34,8 @@ DWORD GetModuleOffset(char const* moduleName, int Offset)
 {
     auto dll = LoadLibraryA(moduleName);
     assert(dll && "Can't load library");
-    if ((int)Offset < 0)
-        Offset = (DWORD)GetProcAddress(dll, MAKEINTRESOURCE(-(int)Offset));
+    if (Offset < 0)
+        Offset = (DWORD)GetProcAddress(dll, MAKEINTRESOURCE(-Offset));
     else
         Offset += (DWORD)dll;
 

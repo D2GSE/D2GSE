@@ -103,12 +103,15 @@ namespace d2gse_loader
             if (Invoker.WaitForSingleObject(hRemoteThread, (uint)WaitResult.INFINITE) != WaitResult.WAIT_OBJECT_0)
                 throw new Exception("Failed to wait for remote thread");
 
+            threadWorking = false;
+
             if (!Invoker.GetExitCodeThread(hRemoteThread, out threadExitCode))
                 throw new Exception("Failed to get thread exit code");
 
             Console.WriteLine("exit code: {0}", threadExitCode);
+            Console.WriteLine(Marshal.GetLastWin32Error());
             if (threadExitCode == 0)
-                Console.WriteLine("Nothing to do. Already injected");
+                throw new Exception("Failed to inject");
 
             threadWorking = false;
             return threadExitCode;

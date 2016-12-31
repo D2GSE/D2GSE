@@ -22,21 +22,21 @@ void SendMsgToClient(DWORD dwClientId, const char* format, ...)
 
 void _SendMsgToClient(DWORD dwClientId, const char* format, va_list arguments)
 {
-    unsigned char text[4096];
+    BYTE text[4096];
     memset(text, 0, sizeof(text));
 
-    unsigned char buffer[] = {
-        0x26,0x04,0x00,0x02,0x00,0x00,0x00,0x00,0x01,0x00,'[','S','e','r','v','e','r',']', 0x00 };
+    char buffer[] = { 0x26,0x04,0x00,0x02,0x00,0x00,0x00,0x00,0x01,0x00,'[','S','e','r','v','e','r',']', 0x00 };
+    int bufferLen = sizeof(buffer);
 
-    memcpy(text, buffer, 19);
+    memcpy(text, buffer, bufferLen);
 
-    vsprintf((char*)&text[19], format, arguments);
+    vsprintf((char*)&text[bufferLen], format, arguments);
 
     // 26 04 00 02 00 00 00 00 01 00 (Character Name) 00 (Message) 00
 
-    int str_len = strlen((char*)&text[19]);
+    int str_len = strlen((char*)&text[bufferLen]);
 
-    D2Net_SendPacket(1, dwClientId, text, 20 + str_len + 1);
+    D2Net_SendPacket(1, dwClientId, text, bufferLen + 1 + str_len + 1);
 }
 
 void SendMsgToGame(Game* pGame, int dwLevel, const char* format, ...)

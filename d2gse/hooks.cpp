@@ -44,7 +44,7 @@ int __stdcall MyHandlePacket(Game* game, Unit* unit, BYTE* packet, DWORD len)
         {
             std::string message;
             message.assign((char const*)packet + 4, len - 7);
-            CommandHandler::HandleCommand(game, unit, message);
+            CommandHandler::HandleMessage(game, unit, message);
             return 1;
         }
 

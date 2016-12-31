@@ -8,7 +8,7 @@ std::vector<CommandHandler::Handler> CommandHandler::CommandTable =
     { "hello", &CommandHandler::HandleHello }
 };
 
-void CommandHandler::HandleCommand(Game* game, Unit* player, std::string const& message)
+void CommandHandler::HandleMessage(Game* game, Unit* player, std::string const& message)
 {
     Tokenizer args(message, ' ', 0, false);
     if (args.empty())

@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="d2gse.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="Patcher.h" />

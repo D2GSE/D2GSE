@@ -66,3 +66,49 @@ void SendMsgToGame(Game* pGame, int dwLevel, const char* format, ...)
         pClient = pClient->pClientPrev;
     }
 }
+
+bool SpawnItem(DWORD iLvl, DWORD unk1, DWORD unk2, Unit* ptPlayer, DWORD itemCode, Game* ptGame, DWORD spawnTarget, DWORD quality, DWORD zero1, DWORD zero2, DWORD zero3)
+{
+    DWORD itemId;
+    DWORD ptr = D2Common_10450(itemCode, &itemId);
+    if (!ptr)
+        return false;
+
+    DWORD res;
+    __asm
+    {
+        push zero3;
+        push zero2;
+        push zero1;
+        push quality;
+        push spawnTarget;
+        push ptGame;
+        push itemId;
+        push ptPlayer;
+        mov ecx, unk2;
+        mov edx, unk1;
+        mov eax, iLvl;
+        call p_D2Game_SpawnItem;
+        mov res, eax;
+    }
+
+    return res != NULL;
+}
+
+Unit* SpawnInventoryItem(DWORD iLvl, Unit* ptPlayer, DWORD itemCode, Game* game, DWORD quality, DWORD dropOnNoSpace)
+{
+    Unit* res;
+    __asm
+    {
+        push dropOnNoSpace;
+        push quality;
+        push game;
+        mov ecx, itemCode;
+        mov edx, ptPlayer;
+        mov eax, iLvl;
+        call p_D2Game_SpawnInventoryItem;
+        mov res, eax;
+    }
+
+    return res;
+}

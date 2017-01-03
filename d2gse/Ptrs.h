@@ -1,7 +1,11 @@
 #pragma once
 
+#define NOMINMAX
 #include <Windows.h>
 #include <map>
+
+struct Unit;
+struct Game;
 
 enum DllIndexes
 {
@@ -72,4 +76,11 @@ ASMPTR(D2Server, OldPacketFunc_patchloc, 0x22348)
 ASMPTR(D2Server, OldPacketFunc, 0x214BE)
 
 FUNCPTR(D2Net, SendPacket, void __stdcall, (DWORD unk1, DWORD dwClientId, BYTE* aPacket, DWORD aLen), -10002)
+
+FUNCPTR(D2Game, SpawnItem, Unit* __stdcall, (DWORD iLvl, DWORD unk1, DWORD unk2, Unit* ptPlayer, DWORD itemId, Game* ptGame, DWORD spawnTarget, DWORD quality, DWORD zero1, DWORD zero2, DWORD zero3), 0x6FC31980 - 0x6FC20000)
+ASMPTR(D2Game, SpawnItem, 0x6FC31980 - 0x6FC20000)
+
+ASMPTR(D2Game, SpawnInventoryItem, 0x2216470 - 0x21E0000)
+
+FUNCPTR(D2Common, 10450, int __stdcall, (DWORD a1, DWORD* a2), -10450)
 

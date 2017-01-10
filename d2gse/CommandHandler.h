@@ -20,6 +20,7 @@ class CommandHandler
 
     static bool HandleHello(Game* game, Unit* player, std::vector<char const*> const& arguments);
     static bool HandleSpawn(Game* game, Unit* player, std::vector<char const*> const& arguments);
+    static bool HandleTest(Game* game, Unit* player, std::vector<char const*> const& arguments);
 
 public:
     static void HandleMessage(Game* game, Unit* player, std::string const& message);

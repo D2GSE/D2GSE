@@ -6,8 +6,9 @@
 
 std::vector<CommandHandler::Handler> CommandHandler::CommandTable =
 {
+    { "spawn", &CommandHandler::HandleSpawn },
     { "hello", &CommandHandler::HandleHello },
-    { "spawn", &CommandHandler::HandleSpawn }
+    { "test", &CommandHandler::HandleTest },
 };
 
 void CommandHandler::HandleMessage(Game* game, Unit* player, std::string const& message)
@@ -41,6 +42,13 @@ bool CommandHandler::HandleHello(Game* game, Unit* player, std::vector<char cons
     }
     else
         SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, message.c_str());
+
+    return true;
+}
+
+bool CommandHandler::HandleTest(Game* game, Unit* player, std::vector<char const*> const& arguments)
+{
+    SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "1: %s 2: %s 3: %s", game->szGameName, game->szGamePass, game->szGameDescription);
 
     return true;
 }

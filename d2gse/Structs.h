@@ -466,10 +466,9 @@ struct Game								// sizeof 0x1DE8
     int						nClientRelated;		// +20
     DWORD					dwUnk;				// +24
     WORD					wGameNumber;		// +28
-    char                    szGameName[14];     // +2A 
-    char                    szGameServerIp[16];	// +38
-    char                    szAccountName[16];	// +48
-    char                    szRealmName[18];	// +58    
+    char                    szGameName[0x10];   // +2A
+    char                    szGamePass[0x10];   // +3A
+    char                    szGameDescription[0x20]; // +4A
     BYTE                    nGameType;          // +6A
     WORD                    _6B;	            // +6B
     BYTE                    nDifficulty;        // +6D 

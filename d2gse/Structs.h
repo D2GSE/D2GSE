@@ -6,6 +6,7 @@
 
 struct Game;
 struct Unit;
+struct D2GSGame;
 
 struct NetClient
 {
@@ -540,23 +541,25 @@ struct D2GSPlayer
     char accountName[0x10];     // 0x00
     char name[0x10];            // 0x10
     char ipAddress[0x10];       // 0x20
-    DWORD unk;                  // 0x30
+    DWORD token;                // 0x30
     DWORD level;                // 0x34
     WORD _class;                // 0x38
     WORD gap;                   // 0x3A
     WORD loadState;             // 0x3C
-    WORD field3E;               // 0x3E
-    WORD field40;               // 0x40
+    WORD isLadder;              // 0x3E
+    WORD loadState2;            // 0x40
     WORD gap2;                  // 0x42
     DWORD enterTime;            // 0x44
-    DWORD gap3;                 // 0x48
+    DWORD otherTime;            // 0x48
     DWORD dwClientId;           // 0x4C
-    DWORD gap4[2];              // 0x50
+    WORD dwGameId;              // 0x50
+    WORD gap3;                  // 0x52
+    D2GSGame* pGame;            // 0x54
     D2GSPlayer* pPrevPlayer;    // 0x58
     D2GSPlayer* pNextPlayer;    // 0x5C
 };
 
-static_assert(sizeof(D2GSPlayer) == 0x5C + 4, "Check D2GSPlayer structure padding");
+static_assert(sizeof(D2GSPlayer) == 0x5C + 4, "Check D2GSPlayer structure padding");    // 0x60 final size
 
 struct D2GSGame
 {
@@ -582,5 +585,34 @@ struct D2GSGame
 };
 
 static_assert(sizeof(D2GSGame) == 0x8C + 4, "Check D2GSGame structure padding");
+
+
+typedef int (__cdecl *D2GSCommandHandler)(SOCKET*, void*);
+
+struct D2GSCommandTable
+{
+    char* Command;              // 0x00
+    BOOL Hidden;                // 0x04
+    D2GSCommandHandler Handler; // 0x08
+    char* ParameterDescription; // 0x0C
+    char* Description;          // 0x10
+};
+
+struct DatabasePlayerInfo
+{
+    union
+    {
+        D2GSPlayer* player;
+        D2GSGame* game;
+    };
+};
+
+struct D2GSCharacterInfo
+{
+    char Name[0x10];            // 0x00
+    D2GSPlayer* pPlayer;        // 0x10
+    D2GSGame* pGame;            // 0x14
+    D2GSCharacterInfo* pNext;   // 0x18
+};  // size 0x1C
 
 #pragma pack(pop)

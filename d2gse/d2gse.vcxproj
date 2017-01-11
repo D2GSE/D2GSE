@@ -112,7 +112,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CommandHandler.cpp" />
+    <ClCompile Include="ChatHandler.cpp" />
     <ClCompile Include="d2gse.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -122,7 +122,7 @@
     <ClCompile Include="Ptrs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommandHandler.h" />
+    <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="d2gse.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GameManager.h" />

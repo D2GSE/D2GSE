@@ -6,7 +6,7 @@
 struct Game;
 struct Unit;
 
-class CommandHandler
+class ChatHandler
 {
     typedef bool (*HandlerCallback)(Game* game, Unit* player, std::vector<char const*> const& arguments);
 
@@ -23,7 +23,7 @@ class CommandHandler
     static bool HandleTest(Game* game, Unit* player, std::vector<char const*> const& arguments);
 
 public:
-    static void HandleMessage(Game* game, Unit* player, std::string const& message);
+    static void HandleCommand(Game* game, Unit* player, std::string const& message);
 };
 
 // from TrinityCore

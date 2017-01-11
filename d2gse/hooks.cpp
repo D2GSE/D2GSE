@@ -1,7 +1,7 @@
 #include "Hooks.h"
 #include "Ptrs.h"
 #include "Structs.h"
-#include "CommandHandler.h"
+#include "ChatHandler.h"
 #include "GameManager.h"
 #include <string>
 #include <sstream>
@@ -45,7 +45,7 @@ int __stdcall MyHandlePacket(Game* game, Unit* unit, BYTE* packet, DWORD len)
         {
             std::string message;
             message.assign((char const*)packet + 4, len - 7);
-            CommandHandler::HandleMessage(game, unit, message);
+            ChatHandler::HandleCommand(game, unit, message);
             return 1;
         }
 

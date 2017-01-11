@@ -1,18 +1,18 @@
-#include "CommandHandler.h"
+#include "ChatHandler.h"
 #include "Ptrs.h"
 #include "Structs.h"
 #include "Helpers.h"
 #include "GameManager.h"
 #include <algorithm>
 
-std::vector<CommandHandler::Handler> CommandHandler::CommandTable =
+std::vector<ChatHandler::Handler> ChatHandler::CommandTable =
 {
-    { "spawn", &CommandHandler::HandleSpawn },
-    { "hello", &CommandHandler::HandleHello },
-    { "test", &CommandHandler::HandleTest },
+    { "spawn", &ChatHandler::HandleSpawn },
+    { "hello", &ChatHandler::HandleHello },
+    { "test", &ChatHandler::HandleTest },
 };
 
-void CommandHandler::HandleMessage(Game* game, Unit* player, std::string const& message)
+void ChatHandler::HandleCommand(Game* game, Unit* player, std::string const& message)
 {
     Tokenizer args(message, ' ', 0, false);
     if (args.empty())
@@ -32,7 +32,7 @@ void CommandHandler::HandleMessage(Game* game, Unit* player, std::string const& 
     }
 }
 
-bool CommandHandler::HandleHello(Game* game, Unit* player, std::vector<char const*> const& arguments)
+bool ChatHandler::HandleHello(Game* game, Unit* player, std::vector<char const*> const& arguments)
 {
     std::string message = "hello world!!!1111";
 
@@ -47,7 +47,7 @@ bool CommandHandler::HandleHello(Game* game, Unit* player, std::vector<char cons
     return true;
 }
 
-bool CommandHandler::HandleTest(Game* game, Unit* player, std::vector<char const*> const& arguments)
+bool ChatHandler::HandleTest(Game* game, Unit* player, std::vector<char const*> const& arguments)
 {
     SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Maxgames: %u", *p_D2GS_MaxGames);
 
@@ -100,7 +100,7 @@ struct ItemCodeHelper
     }
 };
 
-bool CommandHandler::HandleSpawn(Game* game, Unit* player, std::vector<char const*> const& arguments)
+bool ChatHandler::HandleSpawn(Game* game, Unit* player, std::vector<char const*> const& arguments)
 {
     if (arguments.size() < 1)
         return false;

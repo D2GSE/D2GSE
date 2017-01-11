@@ -2,6 +2,7 @@
 #include "Ptrs.h"
 #include "Structs.h"
 #include "CommandHandler.h"
+#include "GameManager.h"
 #include <string>
 #include <sstream>
 
@@ -52,4 +53,26 @@ int __stdcall MyHandlePacket(Game* game, Unit* unit, BYTE* packet, DWORD len)
     }
 
     return 0;
+}
+
+void __fastcall GameInitHook(WORD gameId)
+{
+    if (!gameId)
+        return;
+
+    sGameManager.GameCreated(gameId);
+}
+
+void __declspec(naked) InitGameInfoHook()
+{
+    __asm
+    {
+        pushad;
+        call GameInitHook;
+        popad;
+        push ecx;
+        call p_D2Server_InitGameInfo;
+        add esp, 4;
+        jmp p_D2Server_InitGameInfoHook_ReturnLoc;
+    }
 }

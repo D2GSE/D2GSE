@@ -2,6 +2,7 @@
 #include "Ptrs.h"
 #include "Structs.h"
 #include "Helpers.h"
+#include "GameManager.h"
 #include <algorithm>
 
 std::vector<CommandHandler::Handler> CommandHandler::CommandTable =
@@ -48,7 +49,35 @@ bool CommandHandler::HandleHello(Game* game, Unit* player, std::vector<char cons
 
 bool CommandHandler::HandleTest(Game* game, Unit* player, std::vector<char const*> const& arguments)
 {
+    SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Maxgames: %u", *p_D2GS_MaxGames);
+
     SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "1: %s 2: %s 3: %s", game->szGameName, game->szGamePass, game->szGameDescription);
+
+    DWORD hash = D2Game_GameHashFromGameId(game->wGameNumber);
+    SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Hash: %u", hash);
+    if (!hash)
+        return true;
+
+    Game* foundGame = D2Game_AcquireGameFromHash(hash);
+    SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "pGame: %u", foundGame);
+    if (!foundGame)
+        return true;
+
+    D2Game_LeaveCriticalSection(foundGame);
+
+    SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Game name: %s", foundGame->szGameName);
+
+    Unit* found = FindUnit(foundGame, UNIT_TYPE_PLAYER, player->nUnitId);
+    if (found)
+        SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Found player: %s", found->ptPlayerData->name);
+    else
+        SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Player not found");
+
+    auto info = sGameManager.GetGameInfo(game->wGameNumber);
+    if (info)
+        SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Info exists");
+    else
+        SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Info does not exist");
 
     return true;
 }

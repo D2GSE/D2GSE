@@ -393,8 +393,8 @@ struct Unit
         DWORD			nPlayerClass;
         DWORD			nTxtFileNo;
     };									//+04
-    DWORD		nUnitId;				//+08
-    DWORD		nItemNum;				//+0C
+    DWORD       _unk;                   //+08
+    DWORD		nUnitId;				//+0C
     DWORD		CurrentAnim;			//+10
     union {
         MonsterData*	ptMonsterData;
@@ -534,5 +534,53 @@ struct Game								// sizeof 0x1DE8
 };
 
 static_assert(sizeof(Game) == 0x1DE0 + 8, "Check Game structure padding");
+
+struct D2GSPlayer
+{
+    char accountName[0x10];     // 0x00
+    char name[0x10];            // 0x10
+    char ipAddress[0x10];       // 0x20
+    DWORD unk;                  // 0x30
+    DWORD level;                // 0x34
+    WORD _class;                // 0x38
+    WORD gap;                   // 0x3A
+    WORD loadState;             // 0x3C
+    WORD field3E;               // 0x3E
+    WORD field40;               // 0x40
+    WORD gap2;                  // 0x42
+    DWORD enterTime;            // 0x44
+    DWORD gap3;                 // 0x48
+    DWORD dwClientId;           // 0x4C
+    DWORD gap4[2];              // 0x50
+    D2GSPlayer* pPrevPlayer;    // 0x58
+    D2GSPlayer* pNextPlayer;    // 0x5C
+};
+
+static_assert(sizeof(D2GSPlayer) == 0x5C + 4, "Check D2GSPlayer structure padding");
+
+struct D2GSGame
+{
+    char gameName[0x10];        // 0x00
+    char gamePass[0x10];        // 0x10
+    char gameDescr[0x20];       // 0x30
+    char creatorAcc[0x10];      // 0x40
+    char creatorChar[0x10];     // 0x50
+    char creatorIp[0x10];       // 0x60
+    BYTE isLadder;              // 0x70
+    BYTE isExpansion;           // 0x71
+    BYTE difficulty;            // 0x72
+    BYTE isHardcore;            // 0x73
+    BYTE gap[2];                // 0x74
+    WORD dwGameId;              // 0x76
+    WORD userCount;             // 0x78
+    BYTE gap2[2];               // 0x7A
+    DWORD createTime;           // 0x7C
+    DWORD isDisabled;           // 0x80
+    D2GSPlayer* pFirstPlayer;   // 0x84
+    D2GSGame* pGamePrev;        // 0x88
+    D2GSGame* pGameNext;        // 0x8C
+};
+
+static_assert(sizeof(D2GSGame) == 0x8C + 4, "Check D2GSGame structure padding");
 
 #pragma pack(pop)

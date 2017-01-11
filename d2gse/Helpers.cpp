@@ -112,3 +112,18 @@ Unit* SpawnInventoryItem(DWORD iLvl, Unit* ptPlayer, DWORD itemCode, Game* game,
 
     return res;
 }
+
+Unit* FindUnit(Game* game, DWORD dwUnitType, DWORD dwUnitId)
+{
+    Unit* result;
+    __asm
+    {
+        mov eax, dwUnitType;
+        mov edx, dwUnitId;
+        mov ecx, game;
+        call p_D2Game_FindUnit;
+        mov result, eax;
+    }
+
+    return result;
+}

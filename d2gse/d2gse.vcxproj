@@ -115,6 +115,7 @@
     <ClCompile Include="CommandHandler.cpp" />
     <ClCompile Include="d2gse.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="hooks.cpp" />
     <ClCompile Include="Patcher.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="d2gse.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="Patcher.h" />

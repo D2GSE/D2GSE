@@ -12,6 +12,7 @@ void DefineOffsets()
         char const* dllName = "";
         switch (init->DllIndex)
         {
+            case D2GS: dllName = "d2gs.exe"; break;
             case D2Server: dllName = "d2server.dll"; break;
             case Bnclient: dllName = "Bnclient.dll"; break;
             case D2Client: dllName = "D2Client.dll"; break;

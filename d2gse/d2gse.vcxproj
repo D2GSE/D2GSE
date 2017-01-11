@@ -113,6 +113,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChatHandler.cpp" />
+    <ClCompile Include="CommandHandler.cpp" />
     <ClCompile Include="d2gse.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatHandler.h" />
+    <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="d2gse.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GameManager.h" />

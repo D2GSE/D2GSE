@@ -115,7 +115,7 @@ FUNCPTR(D2GS, HashPlayerName, int __cdecl, (const char* name), 0x004015F0 - 0x40
 VARPTR(D2GS, CharlistTable, D2GSCharacterInfo**, 0x00411388 - 0x400000)
 FUNCPTR(D2GS, GetDatabasePlayerInfo, DatabasePlayerInfo* __cdecl, (char *Name, int param), 0x00401770 - 0x400000) // 1 - player info, 2 - game info
 
-VARPTR(D2GS, CommandTable, D2GSCommandTable**, 0x0040F780 - 0x400000)
+VARPTR(D2GS, CommandTable, D2GSCommandTable, 0x0040F780 - 0x400000)
 // .text:00408A57 8B 35 80 F7 40 00                 mov     esi, commandStart
 ASMPTR(D2GS, CommandTable_PatchLoc1, 0x00408A57 - 0x400000)
 // .text:00408A6B BF 80 F7 40 00                    mov     edi, offset commandStart

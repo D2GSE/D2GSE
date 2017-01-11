@@ -587,10 +587,19 @@ struct D2GSGame
 static_assert(sizeof(D2GSGame) == 0x8C + 4, "Check D2GSGame structure padding");
 
 
-typedef int (__cdecl *D2GSCommandHandler)(SOCKET*, void*);
+typedef int (__cdecl *D2GSCommandHandler)(SOCKET, void*);
 
 struct D2GSCommandTable
 {
+    D2GSCommandTable()
+    {
+        Command = nullptr;
+        Hidden = 1;
+        Handler = nullptr;
+        ParameterDescription = "";
+        Description = "";
+    }
+
     char* Command;              // 0x00
     BOOL Hidden;                // 0x04
     D2GSCommandHandler Handler; // 0x08

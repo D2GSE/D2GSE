@@ -97,6 +97,13 @@ ASMPTR(D2Server, InitGameInfoHook_PatchLoc, 0x18B5)
 ASMPTR(D2Server, InitGameInfoHook_ReturnLoc, 0x18BE)
 FUNCPTR(D2Server, GetGameInfo, DWORD *__cdecl, (WORD wGameId), 0x64E8)
 
+VARPTR(D2Server, CopyrightStruct, char*, 0x6800F124 - 0x68000000)
+ASMPTR(D2Server, Copyright_Patchloc_1, 0x6800370D - 0x68000000)
+ASMPTR(D2Server, Copyright_Patchloc_2, 0x68003717 - 0x68000000)
+FUNCPTR(D2Server, sub_68003430, int __stdcall, (int a1, char a2, char a3, void *a4, void *a5), 0x68003430 - 0x68000000)
+// .text:68003679 E8 B2 FD FF FF                    call    sub_68003430
+ASMPTR(D2Server, VersionInfo_Patchloc, 0x68003679 - 0x68000000)
+
 FUNCPTR(D2Game, GameHashFromGameId, DWORD __stdcall, (WORD wGameId), 0x2A3B0)
 FUNCPTR(D2Game, AcquireGameFromHash, Game* __stdcall, (DWORD dwHashId), 0x2AAE0)
 FUNCPTR(D2Game, LeaveCriticalSection, void __fastcall, (Game* game), 0x6FC59BA0 - 0x6FC30000)
@@ -104,15 +111,18 @@ ASMPTR(D2Game, FindUnit, 0xE03A0)
 VARPTR(D2Game, UnkStruct, DWORD, 0x6FD41C24 - 0x6FC30000)
 FUNCPTR(D2Game, KickClient, void __stdcall, (DWORD dwClientId), -10003)
 
+VARPTR(D2GS, CriticalSection, CRITICAL_SECTION, 0x006317C0 - 0x400000)
 VARPTR(D2GS, MaxGames, DWORD, 0x231834)
 VARPTR(D2GS, FirstGame, D2GSGame, 0x00411390 - 0x400000)
 VARPTR(D2GS, GameCount, DWORD, 0x0041139C - 0x400000)
 FUNCPTR(D2GS, GetPlayerFromGameByName, D2GSPlayer* __cdecl, (D2GSGame* game, const char* name), 0x00402860 - 0x400000)
 FUNCPTR(D2GS, GetGameById, D2GSGame* __cdecl, (WORD wGameId), 0x402820 - 0x400000)
+VARPTR(D2GS, FirstPlayer, D2GSPlayer, 0x00411394 - 0x400000)
+FUNCPTR(D2GS, GetPlayerByName, D2GSPlayer* __cdecl, (const char* name), 0x004028E0 - 0x400000)
 
 VARPTR(D2GS, CharlistSize, DWORD, 0x00411384 - 0x400000)
 FUNCPTR(D2GS, HashPlayerName, int __cdecl, (const char* name), 0x004015F0 - 0x400000)
-VARPTR(D2GS, CharlistTable, D2GSCharacterInfo**, 0x00411388 - 0x400000)
+VARPTR(D2GS, CharlistTable, D2GSCharacterInfo*, 0x00411388 - 0x400000)
 FUNCPTR(D2GS, GetDatabasePlayerInfo, DatabasePlayerInfo* __cdecl, (char *Name, int param), 0x00401770 - 0x400000) // 1 - player info, 2 - game info
 
 VARPTR(D2GS, CommandTable, D2GSCommandTable, 0x0040F780 - 0x400000)

@@ -76,3 +76,22 @@ void __declspec(naked) InitGameInfoHook()
         jmp p_D2Server_InitGameInfoHook_ReturnLoc;
     }
 }
+
+char const* D2GSEInfo = "D2GSE Version 0.1 build on " __DATE__ " " __TIME__;
+
+void __declspec(naked) VersionInfoHook()
+{
+    __asm
+    {
+        call D2Server_sub_68003430;
+        push D2GSEInfo;
+        push 0;
+        push 4;
+        push 4;
+        push esi;
+        call D2Server_sub_68003430;
+        mov eax, p_D2Server_VersionInfo_Patchloc;
+        add eax, 5;
+        jmp eax;
+    }
+}

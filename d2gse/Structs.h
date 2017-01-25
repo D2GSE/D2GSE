@@ -20,7 +20,9 @@ struct NetClient
             WORD isHardCoreGame : 1;
         };
     };
-    BYTE	uk2[0x168];					//+0C
+    DWORD	unk2[0x58];					//+0C
+    DWORD dwUnitType;                   //+16C
+    DWORD dwUnitId;                     //+170
     Unit* pUnit;                        //+174
     DWORD unk;                          //+178
     BYTE*	savefile;					//+17C
@@ -443,8 +445,8 @@ struct Unit
     DWORD		clientId;				//+D0
     BYTE		uk10[0x0C];				//+D4
     Unit*		ptFirstMonster;			//+E0
-    Unit*		Unit1;					//+E4
-    Unit*		Unit2;					//+E8
+    Unit*		Unit1;					//+E4   UnitPrev?
+    Unit*		Unit2;					//+E8   UnitNext?
     BYTE		uk11[0x08];				//+EC
     union {
         void* /*CBPlayerData**/	ptCBPlayerData;
@@ -582,7 +584,7 @@ struct D2GSGame
     D2GSPlayer* pFirstPlayer;   // 0x84
     D2GSGame* pGamePrev;        // 0x88
     D2GSGame* pGameNext;        // 0x8C
-};
+};  // size 0x90
 
 static_assert(sizeof(D2GSGame) == 0x8C + 4, "Check D2GSGame structure padding");
 

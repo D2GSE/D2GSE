@@ -8,6 +8,9 @@ class CommandHandler
     static const int CommandCountReserve = 200;
     std::vector<D2GSCommandTable> CommandTable;
 
+    static const int CopyrightCountReserve = 20;
+    std::vector<char*> CopyrightInfo;
+
     CommandHandler();
 
 public:

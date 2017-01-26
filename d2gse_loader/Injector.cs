@@ -74,6 +74,8 @@ namespace d2gse_loader
             IntPtr hKernel32 = Invoker.GetModuleHandle("Kernel32");
             Console.WriteLine("kernel32 handle: {0}", hKernel32);
 
+            this.libraryName = libraryName;
+
             pAllocatedMemory = Invoker.VirtualAllocEx(hProcess, IntPtr.Zero, libraryName.Length, AllocationType.Commit, AllocationProtect.PAGE_READWRITE);
 
             if (pAllocatedMemory == IntPtr.Zero)

@@ -9,7 +9,8 @@ void __fastcall AfterInitialize()
 {
     Patcher::PatchCall(p_D2Server_OldPacketFunc_patchloc, MyHandlePacket_stub, 6);
 
-    Patcher::PatchJmp(p_D2Server_InitGameInfoHook_PatchLoc, InitGameInfoHook, 9);
+    Patcher::PatchJmp(p_D2GS_D2GSGameListInsert_Patchloc, D2GSGameListInsertHook_STUB, 10);
+    Patcher::PatchJmp(p_D2GS_D2GSGameListDelete_Patchloc, D2GSGameListDeleteHook_STUB, 5);
 
     sCommandHandler.Install();
 }

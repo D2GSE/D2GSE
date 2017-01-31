@@ -6,6 +6,7 @@ struct Game;
 struct Unit;
 
 void MyHandlePacket_stub();
-void InitGameInfoHook();
+void D2GSGameListInsertHook_STUB();
+void D2GSGameListDeleteHook_STUB();
 int __stdcall MyHandlePacket(Game* game, Unit* unit, BYTE* packet, DWORD len);
 void VersionInfoHook();

@@ -127,3 +127,12 @@ Unit* FindUnit(Game* game, DWORD dwUnitType, DWORD dwUnitId)
 
     return result;
 }
+
+void __fastcall D2Game_LeaveCriticalSection_STUB(Game* game)
+{
+    __asm
+    {
+        mov eax, game;
+        call p_D2Game_LeaveCriticalSection;
+    }
+}

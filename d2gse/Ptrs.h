@@ -84,19 +84,6 @@ ASMPTR(D2Game, SpawnInventoryItem, 0x2216470 - 0x21E0000)
 
 FUNCPTR(D2Common, 10450, int __stdcall, (DWORD a1, DWORD* a2), -10450)
 
-// .text:680018B2 66 8B 0E                          mov     cx, [esi]
-// .text:680018B5 51                                push    ecx
-// .text:680018B6 E8 6D 4C 00 00                    call    sub_68006528
-// .text:680018BB 83 C4 04                          add     esp, 4
-// .text:680018BE
-// .text:680018BE                   loc_680018BE:                           ; CODE XREF: create_game_sub_68001870+3Cj
-// .text:680018BE                                                           ; create_game_sub_68001870+40j
-// .text:680018BE 8B C7                             mov     eax, edi
-ASMPTR(D2Server, InitGameInfo, 0x6528)
-ASMPTR(D2Server, InitGameInfoHook_PatchLoc, 0x18B5)
-ASMPTR(D2Server, InitGameInfoHook_ReturnLoc, 0x18BE)
-FUNCPTR(D2Server, GetGameInfo, DWORD *__cdecl, (WORD wGameId), 0x64E8)
-
 VARPTR(D2Server, CopyrightStruct, char*, 0x6800F124 - 0x68000000)
 ASMPTR(D2Server, Copyright_Patchloc_1, 0x6800370D - 0x68000000)
 ASMPTR(D2Server, Copyright_Patchloc_2, 0x68003717 - 0x68000000)
@@ -106,7 +93,7 @@ ASMPTR(D2Server, VersionInfo_Patchloc, 0x68003679 - 0x68000000)
 
 FUNCPTR(D2Game, GameHashFromGameId, DWORD __stdcall, (WORD wGameId), 0x2A3B0)
 FUNCPTR(D2Game, AcquireGameFromHash, Game* __stdcall, (DWORD dwHashId), 0x2AAE0)
-FUNCPTR(D2Game, LeaveCriticalSection, void __fastcall, (Game* game), 0x6FC59BA0 - 0x6FC30000)
+ASMPTR(D2Game, LeaveCriticalSection, 0x6FC59BA0 - 0x6FC30000)
 ASMPTR(D2Game, FindUnit, 0xE03A0)
 VARPTR(D2Game, UnkStruct, DWORD, 0x6FD41C24 - 0x6FC30000)
 FUNCPTR(D2Game, KickClient, void __stdcall, (DWORD dwClientId), -10003)
@@ -124,6 +111,11 @@ VARPTR(D2GS, clitbl_len, DWORD, 0x00411384 - 0x400000)
 FUNCPTR(D2GS, string_hash, int __cdecl, (const char* name), 0x004015F0 - 0x400000)
 VARPTR(D2GS, clitbl, D2CHARLIST*, 0x00411388 - 0x400000)
 FUNCPTR(D2GS, charlist_getdata, CharlistInfo* __cdecl, (char *Name, int param), 0x00401770 - 0x400000) // 1 - player info, 2 - game info
+
+// .text:004022F5 C7 86 80 00 00 00 00 00 00 00                 mov     dword ptr[esi + 80h], 0
+ASMPTR(D2GS, D2GSGameListInsert_Patchloc, 0x004022F5 - 0x400000);
+// .text:00402360 56                                            push    esi
+ASMPTR(D2GS, D2GSGameListDelete_Patchloc, 0x00402360 - 0x400000);
 
 VARPTR(D2GS, admincmdtbl, ADMINCOMMAND, 0x0040F780 - 0x400000)
 // .text:00408A57 8B 35 80 F7 40 00                 mov     esi, commandStart

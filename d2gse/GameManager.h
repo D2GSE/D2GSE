@@ -4,16 +4,22 @@
 #include <Windows.h>
 #include <mutex>
 
-class GameInfo
-{
+struct D2GAMEINFO;
 
+class ExtendedGameInfo
+{
+    D2GAMEINFO* _gameInfo;
+public:
+    ExtendedGameInfo(D2GAMEINFO* gameInfo) : _gameInfo(gameInfo) {}
+
+    D2GAMEINFO const* GetGameInfo() { return _gameInfo; }
 };
 
 class GameManager
 {
     std::mutex gameLock;
-    typedef std::unordered_map<WORD /*gameId*/, GameInfo*> GameInfoMap;
-    GameInfoMap _gameInfos;
+    typedef std::unordered_map<WORD /*gameId*/, ExtendedGameInfo*> ExtendedGameInfoMap;
+    ExtendedGameInfoMap _gameInfos;
 
     GameManager();
 
@@ -24,10 +30,10 @@ public:
         return instance;
     }
 
-    void GameCreated(WORD gameId);
-    void GameClosed(WORD gameId);
+    void GameCreated(D2GAMEINFO* gameInfo);
+    void GameClosed(D2GAMEINFO* gameInfo);
 
-    GameInfo* GetGameInfo(WORD gameId);
+    ExtendedGameInfo* GetExtendedGameInfo(WORD gameId);
 
     ~GameManager();
 };

@@ -6,36 +6,19 @@ GameManager::GameManager()
 {
 }
 
-
-void GameManager::GameCreated(WORD gameId)
-{
-    if (!gameId)
-        return;
-
-    DWORD hash = D2Game_GameHashFromGameId(gameId);
-    if (!hash)
-        return;
-
-    Game* game = D2Game_AcquireGameFromHash(hash);
-    if (!game)
-        return;
-
-    D2Game_LeaveCriticalSection(game);
-
-    std::lock_guard<std::mutex> lock(gameLock);
-    if (_gameInfos.find(gameId) != _gameInfos.end())
-        return;
-
-    _gameInfos[gameId] = new GameInfo();
-}
-
-void GameManager::GameClosed(WORD gameId)
+void GameManager::GameCreated(D2GAMEINFO* gameInfo)
 {
     std::lock_guard<std::mutex> lock(gameLock);
-    _gameInfos.erase(gameId);
+    _gameInfos[gameInfo->GameId] = new ExtendedGameInfo(gameInfo);
 }
 
-GameInfo* GameManager::GetGameInfo(WORD gameId)
+void GameManager::GameClosed(D2GAMEINFO* gameInfo)
+{
+    std::lock_guard<std::mutex> lock(gameLock);
+    _gameInfos.erase(gameInfo->GameId);
+}
+
+ExtendedGameInfo* GameManager::GetExtendedGameInfo(WORD gameId)
 {
     std::lock_guard<std::mutex> lock(gameLock);
 

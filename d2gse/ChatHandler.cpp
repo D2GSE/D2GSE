@@ -63,8 +63,6 @@ bool ChatHandler::HandleTest(Game* game, Unit* player, std::vector<char const*> 
     if (!foundGame)
         return true;
 
-    D2Game_LeaveCriticalSection(foundGame);
-
     SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Game name: %s", foundGame->szGameName);
 
     Unit* found = FindUnit(foundGame, UNIT_TYPE_PLAYER, player->nUnitId);
@@ -73,9 +71,15 @@ bool ChatHandler::HandleTest(Game* game, Unit* player, std::vector<char const*> 
     else
         SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Player not found");
 
-    auto info = sGameManager.GetGameInfo(game->wGameNumber);
-    if (info)
+    D2Game_LeaveCriticalSection_STUB(foundGame);
+
+    auto extendedInfo = sGameManager.GetExtendedGameInfo(game->wGameNumber);
+    if (extendedInfo)
+    {
+        auto info = extendedInfo->GetGameInfo();
         SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Info exists");
+        SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Creator ip: %s", info->CreatorIp);
+    }
     else
         SendMsgToClient(player->ptPlayerData->ptNetClient->clientID, "Info does not exist");
 

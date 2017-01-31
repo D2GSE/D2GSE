@@ -55,25 +55,50 @@ int __stdcall MyHandlePacket(Game* game, Unit* unit, BYTE* packet, DWORD len)
     return 0;
 }
 
-void __fastcall GameInitHook(WORD gameId)
+void __fastcall D2GSGameListInsertHook(D2GAMEINFO* gameInfo)
 {
-    if (!gameId)
+    if (!gameInfo)
         return;
 
-    sGameManager.GameCreated(gameId);
+    sGameManager.GameCreated(gameInfo);
 }
 
-void __declspec(naked) InitGameInfoHook()
+void __fastcall D2GSGameListDeleteHook(D2GAMEINFO* gameInfo)
+{
+    if (!gameInfo)
+        return;
+
+    sGameManager.GameClosed(gameInfo);
+}
+
+void __declspec(naked) D2GSGameListInsertHook_STUB()
+{
+    __asm
+    {
+        mov dword ptr[esi + 0x80], 0;
+        pushad;
+        mov ecx, esi;
+        call D2GSGameListInsertHook;
+        popad;
+        mov eax, p_D2GS_D2GSGameListInsert_Patchloc;
+        add eax, 0xA;
+        jmp eax;
+    }
+}
+
+void __declspec(naked) D2GSGameListDeleteHook_STUB()
 {
     __asm
     {
         pushad;
-        call GameInitHook;
+        mov ecx, [esp + 0x20 + 4];
+        call D2GSGameListDeleteHook;
         popad;
-        push ecx;
-        call p_D2Server_InitGameInfo;
-        add esp, 4;
-        jmp p_D2Server_InitGameInfoHook_ReturnLoc;
+        push esi;
+        mov esi, [esp + 4 + 4];
+        mov eax, p_D2GS_D2GSGameListDelete_Patchloc;
+        add eax, 5;
+        jmp eax;
     }
 }
 

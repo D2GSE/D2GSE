@@ -18,3 +18,4 @@ void SendMsgToGame(Game* pGame, int dwLevel, const char* format, ...);
 bool SpawnItem(DWORD iLvl, DWORD unk1, DWORD unk2, Unit* ptPlayer, DWORD itemCode, Game* ptGame, DWORD spawnTarget, DWORD quality, DWORD zero1, DWORD zero2, DWORD zero3);
 Unit* SpawnInventoryItem(DWORD iLvl, Unit* ptPlayer, DWORD itemCode, Game* game, DWORD quality, DWORD dropOnNoSpace);
 Unit* FindUnit(Game* game, DWORD dwUnitType, DWORD dwUnitId);
+void __fastcall D2Game_LeaveCriticalSection_STUB(Game* game);

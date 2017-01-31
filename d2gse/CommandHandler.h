@@ -6,7 +6,7 @@
 class CommandHandler
 {
     static const int CommandCountReserve = 200;
-    std::vector<D2GSCommandTable> CommandTable;
+    std::vector<ADMINCOMMAND> CommandTable;
 
     static const int CopyrightCountReserve = 20;
     std::vector<char*> CopyrightInfo;
@@ -21,7 +21,7 @@ public:
     }
 
     void Install();
-    bool AddCommand(D2GSCommandTable const& info);
+    bool AddCommand(ADMINCOMMAND const& info);
 
     ~CommandHandler();
 

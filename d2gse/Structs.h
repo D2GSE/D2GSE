@@ -6,7 +6,7 @@
 
 struct Game;
 struct Unit;
-struct D2GSGame;
+struct D2GAMEINFO;
 
 struct NetClient
 {
@@ -538,92 +538,91 @@ struct Game								// sizeof 0x1DE8
 
 static_assert(sizeof(Game) == 0x1DE0 + 8, "Check Game structure padding");
 
-struct D2GSPlayer
+struct D2CHARINFO
 {
-    char accountName[0x10];     // 0x00
-    char name[0x10];            // 0x10
+    char AcctName[0x10];        // 0x00
+    char CharName[0x10];        // 0x10
     char ipAddress[0x10];       // 0x20
     DWORD token;                // 0x30
-    DWORD level;                // 0x34
-    WORD _class;                // 0x38
-    WORD gap;                   // 0x3A
-    WORD loadState;             // 0x3C
-    WORD isLadder;              // 0x3E
-    WORD loadState2;            // 0x40
+    DWORD CharLevel;            // 0x34
+    WORD CharClass;             // 0x38
+    WORD TickCount;             // 0x3A
+    WORD EnterGame;             // 0x3C
+    WORD AllowLadder;           // 0x3E
+    WORD CharLockStatus;        // 0x40
     WORD gap2;                  // 0x42
-    DWORD enterTime;            // 0x44
-    DWORD otherTime;            // 0x48
-    DWORD dwClientId;           // 0x4C
-    WORD dwGameId;              // 0x50
+    DWORD EnterTime;            // 0x44
+    DWORD CharCreateTime;       // 0x48
+    DWORD ClientId;             // 0x4C
+    WORD GameId;                // 0x50
     WORD gap3;                  // 0x52
-    D2GSGame* pGame;            // 0x54
-    D2GSPlayer* pPrevPlayer;    // 0x58
-    D2GSPlayer* pNextPlayer;    // 0x5C
+    D2GAMEINFO* lpGameInfo;     // 0x54
+    D2CHARINFO* prev;           // 0x58
+    D2CHARINFO* next;           // 0x5C
 };
 
-static_assert(sizeof(D2GSPlayer) == 0x5C + 4, "Check D2GSPlayer structure padding");    // 0x60 final size
+static_assert(sizeof(D2CHARINFO) == 0x5C + 4, "Check D2CHARINFO structure padding");    // 0x60 final size
 
-struct D2GSGame
+struct D2GAMEINFO
 {
-    char gameName[0x10];        // 0x00
-    char gamePass[0x10];        // 0x10
-    char gameDescr[0x20];       // 0x30
-    char creatorAcc[0x10];      // 0x40
-    char creatorChar[0x10];     // 0x50
-    char creatorIp[0x10];       // 0x60
-    BYTE isLadder;              // 0x70
-    BYTE isExpansion;           // 0x71
+    char GameName[0x10];        // 0x00
+    char GamePass[0x10];        // 0x10
+    char GameDescr[0x20];       // 0x30
+    char CreatorAcc[0x10];      // 0x40
+    char CreatorChar[0x10];     // 0x50
+    char CreatorIp[0x10];       // 0x60
+    BYTE ladder;                // 0x70
+    BYTE expansion;             // 0x71
     BYTE difficulty;            // 0x72
-    BYTE isHardcore;            // 0x73
+    BYTE hardcore;              // 0x73
     BYTE gap[2];                // 0x74
-    WORD dwGameId;              // 0x76
-    WORD userCount;             // 0x78
+    WORD GameId;                // 0x76
+    WORD CharCount;             // 0x78
     BYTE gap2[2];               // 0x7A
-    DWORD createTime;           // 0x7C
-    DWORD isDisabled;           // 0x80
-    D2GSPlayer* pFirstPlayer;   // 0x84
-    D2GSGame* pGamePrev;        // 0x88
-    D2GSGame* pGameNext;        // 0x8C
+    DWORD CreateTime;           // 0x7C
+    DWORD disable;              // 0x80
+    D2CHARINFO* pFirstPlayer;   // 0x84
+    D2GAMEINFO* pGamePrev;      // 0x88
+    D2GAMEINFO* pGameNext;      // 0x8C
 };  // size 0x90
 
-static_assert(sizeof(D2GSGame) == 0x8C + 4, "Check D2GSGame structure padding");
-
+static_assert(sizeof(D2GAMEINFO) == 0x8C + 4, "Check D2GAMEINFO structure padding");
 
 typedef int (__cdecl *D2GSCommandHandler)(SOCKET, void*);
 
-struct D2GSCommandTable
+struct ADMINCOMMAND
 {
-    D2GSCommandTable()
+    ADMINCOMMAND()
     {
-        Command = nullptr;
+        keyword = nullptr;
         Hidden = 1;
-        Handler = nullptr;
-        ParameterDescription = "";
-        Description = "";
+        adminfunc = nullptr;
+        param = "";
+        annotation = "";
     }
 
-    char* Command;              // 0x00
-    BOOL Hidden;                // 0x04
-    D2GSCommandHandler Handler; // 0x08
-    char* ParameterDescription; // 0x0C
-    char* Description;          // 0x10
+    char* keyword;                  // 0x00
+    BOOL Hidden;                    // 0x04
+    D2GSCommandHandler adminfunc;   // 0x08
+    char* param;                    // 0x0C
+    char* annotation;               // 0x10
 };
 
-struct DatabasePlayerInfo
+struct CharlistInfo
 {
     union
     {
-        D2GSPlayer* player;
-        D2GSGame* game;
+        D2CHARINFO* player;
+        D2GAMEINFO* game;
     };
 };
 
-struct D2GSCharacterInfo
+struct D2CHARLIST
 {
-    char Name[0x10];            // 0x00
-    D2GSPlayer* pPlayer;        // 0x10
-    D2GSGame* pGame;            // 0x14
-    D2GSCharacterInfo* pNext;   // 0x18
+    char charname[0x10];        // 0x00
+    D2CHARINFO* pCharInfo;      // 0x10
+    D2GAMEINFO* pGameInfo;      // 0x14
+    D2CHARLIST* next;           // 0x18
 };  // size 0x1C
 
 #pragma pack(pop)

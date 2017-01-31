@@ -111,38 +111,38 @@ ASMPTR(D2Game, FindUnit, 0xE03A0)
 VARPTR(D2Game, UnkStruct, DWORD, 0x6FD41C24 - 0x6FC30000)
 FUNCPTR(D2Game, KickClient, void __stdcall, (DWORD dwClientId), -10003)
 
-VARPTR(D2GS, CriticalSection, CRITICAL_SECTION, 0x006317C0 - 0x400000)
+VARPTR(D2GS, csGameList, CRITICAL_SECTION, 0x006317C0 - 0x400000)
 VARPTR(D2GS, MaxGames, DWORD, 0x231834)
-VARPTR(D2GS, FirstGame, D2GSGame, 0x00411390 - 0x400000)
-VARPTR(D2GS, GameCount, DWORD, 0x0041139C - 0x400000)
-FUNCPTR(D2GS, GetPlayerFromGameByName, D2GSPlayer* __cdecl, (D2GSGame* game, const char* name), 0x00402860 - 0x400000)
-FUNCPTR(D2GS, GetGameById, D2GSGame* __cdecl, (WORD wGameId), 0x402820 - 0x400000)
-VARPTR(D2GS, FirstPlayer, D2GSPlayer, 0x00411394 - 0x400000)
-FUNCPTR(D2GS, GetPlayerByName, D2GSPlayer* __cdecl, (const char* name), 0x004028E0 - 0x400000)
+VARPTR(D2GS, lpGameInfoHead, D2GAMEINFO, 0x00411390 - 0x400000)
+VARPTR(D2GS, currentgamenum, DWORD, 0x0041139C - 0x400000)
+FUNCPTR(D2GS, D2GSFindCharInGameByCharName, D2CHARINFO* __cdecl, (D2GAMEINFO* game, const char* name), 0x00402860 - 0x400000)
+FUNCPTR(D2GS, D2GSFindGameInfoByGameId, D2GAMEINFO* __cdecl, (WORD wGameId), 0x402820 - 0x400000)
+VARPTR(D2GS, lpPendingChar, D2CHARINFO, 0x00411394 - 0x400000)
+FUNCPTR(D2GS, D2GSFindPendingCharByCharName, D2CHARINFO* __cdecl, (const char* name), 0x004028E0 - 0x400000)
 
-VARPTR(D2GS, CharlistSize, DWORD, 0x00411384 - 0x400000)
-FUNCPTR(D2GS, HashPlayerName, int __cdecl, (const char* name), 0x004015F0 - 0x400000)
-VARPTR(D2GS, CharlistTable, D2GSCharacterInfo*, 0x00411388 - 0x400000)
-FUNCPTR(D2GS, GetDatabasePlayerInfo, DatabasePlayerInfo* __cdecl, (char *Name, int param), 0x00401770 - 0x400000) // 1 - player info, 2 - game info
+VARPTR(D2GS, clitbl_len, DWORD, 0x00411384 - 0x400000)
+FUNCPTR(D2GS, string_hash, int __cdecl, (const char* name), 0x004015F0 - 0x400000)
+VARPTR(D2GS, clitbl, D2CHARLIST*, 0x00411388 - 0x400000)
+FUNCPTR(D2GS, charlist_getdata, CharlistInfo* __cdecl, (char *Name, int param), 0x00401770 - 0x400000) // 1 - player info, 2 - game info
 
-VARPTR(D2GS, CommandTable, D2GSCommandTable, 0x0040F780 - 0x400000)
+VARPTR(D2GS, admincmdtbl, ADMINCOMMAND, 0x0040F780 - 0x400000)
 // .text:00408A57 8B 35 80 F7 40 00                 mov     esi, commandStart
-ASMPTR(D2GS, CommandTable_PatchLoc1, 0x00408A57 - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchloc1, 0x00408A57 - 0x400000)
 // .text:00408A6B BF 80 F7 40 00                    mov     edi, offset commandStart
-ASMPTR(D2GS, CommandTable_PatchLoc2, 0x00408A6B - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchloc2, 0x00408A6B - 0x400000)
 // .text:00408BFA 8B 04 8D 80 F7 40 00              mov     eax, commandStart[ecx * 4]
-ASMPTR(D2GS, CommandTable_PatchLoc3, 0x00408BFA - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchloc3, 0x00408BFA - 0x400000)
 // .text:004092F3 A1 80 F7 40 00                    mov     eax, commandStart
-ASMPTR(D2GS, CommandTable_PatchLoc4, 0x004092F3 - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchloc4, 0x004092F3 - 0x400000)
 // .text:004092FD BE 80 F7 40 00                    mov     esi, offset commandStart
-ASMPTR(D2GS, CommandTable_PatchLoc5, 0x004092FD - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchloc5, 0x004092FD - 0x400000)
 
 // .text:0040930C C7 44 24 10 84 F7 40 00           mov[esp + 114h + var_104], offset hiddenStart
-ASMPTR(D2GS, CommandTable_PatchLocHidden, 0x0040930C - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchlocHidden, 0x0040930C - 0x400000)
 // .text:00408AC3 8B 04 85 88 F7 40 00              mov     eax, handlerStart[eax * 4]
-ASMPTR(D2GS, CommandTable_PatchLocHandler, 0x00408AC3 - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchlocHandler, 0x00408AC3 - 0x400000)
 // .text:00409302 BD 8C F7 40 00                    mov     ebp, offset parameterDescr
-ASMPTR(D2GS, CommandTable_PatchLocParameter, 0x00409302 - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchlocParameter, 0x00409302 - 0x400000)
 // .text:00409307 BB 90 F7 40 00                    mov     ebx, offset descriptionStart
-ASMPTR(D2GS, CommandTable_PatchLocDescription, 0x00409307 - 0x400000)
+ASMPTR(D2GS, admincmdtbl_patchlocDescription, 0x00409307 - 0x400000)
 

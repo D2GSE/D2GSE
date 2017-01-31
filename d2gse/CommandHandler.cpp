@@ -25,38 +25,38 @@ int __cdecl TestCommandHandle(SOCKET s, void*)
 void CommandHandler::Install()
 {
     CommandTable.clear();
-    D2GSCommandTable* tableStart = p_D2GS_CommandTable;
+    ADMINCOMMAND* tableStart = p_D2GS_admincmdtbl;
 
-    while (tableStart->Command)
+    while (tableStart->keyword)
     {
         CommandTable.push_back(*tableStart);
         ++tableStart;
     }
 
-    CommandTable.push_back(D2GSCommandTable());
+    CommandTable.push_back(ADMINCOMMAND());
 
-    D2GSCommandTable* newTableStart = CommandTable.data();
+    ADMINCOMMAND* newTableStart = CommandTable.data();
 
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLoc1 + 2), &newTableStart, 4);
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLoc2 + 1), &newTableStart, 4);
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLoc3 + 3), &newTableStart, 4);
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLoc4 + 1), &newTableStart, 4);
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLoc5 + 1), &newTableStart, 4);
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchloc1 + 2), &newTableStart, 4);
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchloc2 + 1), &newTableStart, 4);
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchloc3 + 3), &newTableStart, 4);
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchloc4 + 1), &newTableStart, 4);
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchloc5 + 1), &newTableStart, 4);
 
     void* newHiddenStart = &newTableStart->Hidden;
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLocHidden + 4), &newHiddenStart, 4);
-    void* newHandlerStart = &newTableStart->Handler;
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLocHandler + 3), &newHandlerStart, 4);
-    void* newParamDescrStart = &newTableStart->ParameterDescription;
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLocParameter + 1), &newParamDescrStart, 4);
-    void* newDescrStart = &newTableStart->Description;
-    Patcher::WriteBytes((void*)((DWORD)p_D2GS_CommandTable_PatchLocDescription + 1), &newDescrStart, 4);
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchlocHidden + 4), &newHiddenStart, 4);
+    void* newHandlerStart = &newTableStart->adminfunc;
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchlocHandler + 3), &newHandlerStart, 4);
+    void* newParamDescrStart = &newTableStart->param;
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchlocParameter + 1), &newParamDescrStart, 4);
+    void* newDescrStart = &newTableStart->annotation;
+    Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchlocDescription + 1), &newDescrStart, 4);
 
-    D2GSCommandTable newCommand;
-    newCommand.Command = "fuckadmin";
+    ADMINCOMMAND newCommand;
+    newCommand.keyword = "fuckadmin";
     newCommand.Hidden = 0;
-    newCommand.Description = "Fuck this GS admin";
-    newCommand.Handler = &TestCommandHandle;
+    newCommand.annotation = "Fuck this GS admin";
+    newCommand.adminfunc = &TestCommandHandle;
     AddCommand(newCommand);
 
     Patcher::PatchJmp(p_D2Server_VersionInfo_Patchloc, VersionInfoHook, 5);
@@ -78,12 +78,12 @@ void CommandHandler::Install()
     Patcher::WriteBytes((void*)((DWORD)p_D2Server_Copyright_Patchloc_2 + 1), &newCopyright, 4);
 }
 
-bool CommandHandler::AddCommand(D2GSCommandTable const& info)
+bool CommandHandler::AddCommand(ADMINCOMMAND const& info)
 {
     if (CommandTable.size() == CommandTable.capacity())
         return false;
 
     CommandTable[CommandTable.size() - 1] = info;
-    CommandTable.push_back(D2GSCommandTable());
+    CommandTable.push_back(ADMINCOMMAND());
     return true;
 }

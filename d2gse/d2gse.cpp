@@ -4,6 +4,7 @@
 #include "Ptrs.h"
 #include "hooks.h"
 #include "CommandHandler.h"
+#include "Helpers.h"
 
 void __fastcall AfterInitialize()
 {
@@ -13,6 +14,7 @@ void __fastcall AfterInitialize()
     Patcher::PatchJmp(p_D2GS_D2GSGameListDelete_Patchloc, D2GSGameListDeleteHook_STUB, 5);
 
     sCommandHandler.Install();
+    D2GSE_EventLog("System successfully initialized");
 }
 
 void Install()

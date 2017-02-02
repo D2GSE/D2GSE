@@ -19,9 +19,9 @@ __declspec(naked) void MyHandlePacket_stub()
         push ecx;
         call MyHandlePacket;
         test eax, eax;
+        popad;
         jz oldcode;
 
-        popad;
         pop retAddr;
         pop eax;
         pop eax;
@@ -30,7 +30,6 @@ __declspec(naked) void MyHandlePacket_stub()
         ret;
 
     oldcode:
-        popad;
         mov eax, [p_D2Server_OldPacketFunc];
         mov eax, [eax];  // 680214BE
         jmp eax;         // 68002890h
@@ -71,7 +70,7 @@ void __fastcall D2GSGameListDeleteHook(D2GAMEINFO* gameInfo)
     sGameManager.GameClosed(gameInfo);
 }
 
-void __declspec(naked) D2GSGameListInsertHook_STUB()
+__declspec(naked) void D2GSGameListInsertHook_STUB()
 {
     __asm
     {
@@ -86,7 +85,7 @@ void __declspec(naked) D2GSGameListInsertHook_STUB()
     }
 }
 
-void __declspec(naked) D2GSGameListDeleteHook_STUB()
+__declspec(naked) void D2GSGameListDeleteHook_STUB()
 {
     __asm
     {

@@ -19,3 +19,5 @@ bool SpawnItem(DWORD iLvl, DWORD unk1, DWORD unk2, Unit* ptPlayer, DWORD itemCod
 Unit* SpawnInventoryItem(DWORD iLvl, Unit* ptPlayer, DWORD itemCode, Game* game, DWORD quality, DWORD dropOnNoSpace);
 Unit* FindUnit(Game* game, DWORD dwUnitType, DWORD dwUnitId);
 void __fastcall D2Game_LeaveCriticalSection_STUB(Game* game);
+
+void __cdecl D2GSE_EventLog(char const* format, ...);

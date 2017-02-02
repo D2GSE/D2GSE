@@ -113,19 +113,16 @@ Unit* SpawnInventoryItem(DWORD iLvl, Unit* ptPlayer, DWORD itemCode, Game* game,
     return res;
 }
 
-Unit* FindUnit(Game* game, DWORD dwUnitType, DWORD dwUnitId)
+__declspec(naked) Unit* FindUnit(Game* game, DWORD dwUnitType, DWORD dwUnitId)
 {
-    Unit* result;
     __asm
     {
         mov eax, dwUnitType;
         mov edx, dwUnitId;
         mov ecx, game;
         call p_D2Game_FindUnit;
-        mov result, eax;
+        ret;
     }
-
-    return result;
 }
 
 void __fastcall D2Game_LeaveCriticalSection_STUB(Game* game)
@@ -136,3 +133,19 @@ void __fastcall D2Game_LeaveCriticalSection_STUB(Game* game)
         call p_D2Game_LeaveCriticalSection;
     }
 }
+
+
+static char const* ModuleName = "D2GSE";
+__declspec(naked) void __cdecl D2GSE_EventLog(char const* format, ...)
+{
+    __asm
+    {
+        pop ebx;
+        push ModuleName;
+        call D2GS_D2GSEventLog;
+        pop eax;
+        push ebx;
+        ret;
+    }
+}
+

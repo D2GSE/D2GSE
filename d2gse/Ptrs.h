@@ -138,3 +138,4 @@ ASMPTR(D2GS, admincmdtbl_patchlocParameter, 0x00409302 - 0x400000)
 // .text:00409307 BB 90 F7 40 00                    mov     ebx, offset descriptionStart
 ASMPTR(D2GS, admincmdtbl_patchlocDescription, 0x00409307 - 0x400000)
 
+FUNCPTR(D2GS, D2GSEventLog, int __cdecl, (char const*, char const* Format, ...), 0x00403F40 - 0x400000)

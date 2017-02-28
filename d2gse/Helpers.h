@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include "Enums.h"
+#include <string>
 
 struct Game;
 struct Unit;
@@ -21,3 +22,6 @@ Unit* FindUnit(Game* game, DWORD dwUnitType, DWORD dwUnitId);
 void __fastcall D2Game_LeaveCriticalSection_STUB(Game* game);
 
 void __cdecl D2GSE_EventLog(char const* format, ...);
+
+std::string FormatString(std::string const& msg);
+

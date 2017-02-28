@@ -139,3 +139,15 @@ ASMPTR(D2GS, admincmdtbl_patchlocParameter, 0x00409302 - 0x400000)
 ASMPTR(D2GS, admincmdtbl_patchlocDescription, 0x00409307 - 0x400000)
 
 FUNCPTR(D2GS, D2GSEventLog, int __cdecl, (char const*, char const* Format, ...), 0x00403F40 - 0x400000)
+
+VARPTR(D2GS, D2GSConfig, D2GSConfigEntry, 0x40D030 - 0x400000)
+FUNCPTR(D2GS, D2GSReadConfig, int __stdcall, (),  0x004019C0 - 0x400000)
+// .text:004019C0 68 30 D0 40 00                                push    offset off_40D030 ; int
+ASMPTR(D2GS, Config_PatchLoc, 0x004019C0 - 0x400000)
+
+FUNCPTR(D2GS, chat_message_announce_char2, int __cdecl, (int a1, int a2, int a3), 0x00403450 - 0x400000)
+ASMPTR(D2GS, CustomWEAnnounce_PatchLoc, 0x004035D9 - 0x400000)
+
+typedef D2GSWEConfigInfo const* (*GetWeInfoFunc)();
+VARPTR(D2GS, GetWEConfig, GetWeInfoFunc, 0x004113E0 - 0x400000)
+

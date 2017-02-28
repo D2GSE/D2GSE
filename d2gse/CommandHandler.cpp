@@ -2,6 +2,7 @@
 #include "Ptrs.h"
 #include "Patcher.h"
 #include "hooks.h"
+#include "ConfigMgr.h"
 #include <string>
 
 #pragma comment(lib, "wsock32.lib")
@@ -16,10 +17,18 @@ CommandHandler::~CommandHandler()
 {
 }
 
-int __cdecl TestCommandHandle(SOCKET s, void*)
+int __cdecl ReloadD2GSConfigHandle(SOCKET s, void*)
 {
-    std::string message = "Dont even try to do this...\r\n";
-    return send(s, message.c_str(), message.length(), 0);
+    if (D2GS_D2GSReadConfig())
+    {
+        std::string message = "D2GS config reloaded.\r\n";
+        return send(s, message.c_str(), message.length(), 0);
+    }
+    else
+    {
+        std::string message = "D2GS config reload failed.\r\n";
+        return send(s, message.c_str(), message.length(), 0);
+    }
 }
 
 void CommandHandler::Install()
@@ -52,12 +61,7 @@ void CommandHandler::Install()
     void* newDescrStart = &newTableStart->annotation;
     Patcher::WriteBytes((void*)((DWORD)p_D2GS_admincmdtbl_patchlocDescription + 1), &newDescrStart, 4);
 
-    ADMINCOMMAND newCommand;
-    newCommand.keyword = "fuckadmin";
-    newCommand.Hidden = 0;
-    newCommand.annotation = "Fuck this GS admin";
-    newCommand.adminfunc = &TestCommandHandle;
-    AddCommand(newCommand);
+    FillCustomCommands();
 
     Patcher::PatchJmp(p_D2Server_VersionInfo_Patchloc, VersionInfoHook, 5);
 
@@ -86,4 +90,14 @@ bool CommandHandler::AddCommand(ADMINCOMMAND const& info)
     CommandTable[CommandTable.size() - 1] = info;
     CommandTable.push_back(ADMINCOMMAND());
     return true;
+}
+
+void CommandHandler::FillCustomCommands()
+{
+    ADMINCOMMAND reloadCommand;
+    reloadCommand.keyword = "reload_registry";
+    reloadCommand.Hidden = 0;
+    reloadCommand.annotation = "Reload D2GS config from registry";
+    reloadCommand.adminfunc = &ReloadD2GSConfigHandle;
+    AddCommand(reloadCommand);
 }

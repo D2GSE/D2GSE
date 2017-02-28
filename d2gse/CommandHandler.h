@@ -12,6 +12,7 @@ class CommandHandler
     std::vector<char*> CopyrightInfo;
 
     CommandHandler();
+    void FillCustomCommands();
 
 public:
     static CommandHandler& instance()

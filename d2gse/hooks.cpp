@@ -3,6 +3,8 @@
 #include "Structs.h"
 #include "ChatHandler.h"
 #include "GameManager.h"
+#include "ConfigMgr.h"
+#include "Helpers.h"
 #include <string>
 #include <sstream>
 
@@ -115,6 +117,35 @@ void __declspec(naked) VersionInfoHook()
         push esi;
         call D2Server_sub_68003430;
         mov eax, p_D2Server_VersionInfo_Patchloc;
+        add eax, 5;
+        jmp eax;
+    }
+}
+
+int __stdcall MyAnnounce(DWORD client)
+{
+    auto customWeMessage = sConfigMgr.GetEntry(WEMotd);
+    if (!customWeMessage || strlen((const char*)customWeMessage->Data) == 0)
+        return 0;
+
+    std::string customAnnounce = FormatString((const char*)customWeMessage->Data);
+    D2GS_chat_message_announce_char2(4, client, (DWORD)customAnnounce.c_str());
+    return 1;
+}
+
+void __declspec(naked) WEAnnounceHook()
+{
+    __asm
+    {
+        push edx;
+        call MyAnnounce;
+        test eax, eax;
+        jnz quit;
+
+        call D2GS_chat_message_announce_char2;
+
+    quit:
+        mov eax, p_D2GS_CustomWEAnnounce_PatchLoc;
         add eax, 5;
         jmp eax;
     }

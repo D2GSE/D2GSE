@@ -114,6 +114,7 @@
   <ItemGroup>
     <ClCompile Include="ChatHandler.cpp" />
     <ClCompile Include="CommandHandler.cpp" />
+    <ClCompile Include="ConfigMgr.cpp" />
     <ClCompile Include="d2gse.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="ChatHandler.h" />
     <ClInclude Include="CommandHandler.h" />
+    <ClInclude Include="ConfigMgr.h" />
     <ClInclude Include="d2gse.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GameManager.h" />
@@ -132,6 +134,7 @@
     <ClInclude Include="hooks.h" />
     <ClInclude Include="Patcher.h" />
     <ClInclude Include="Ptrs.h" />
+    <ClInclude Include="stl_extensions.h" />
     <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

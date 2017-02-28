@@ -1,8 +1,8 @@
 #include "Helpers.h"
 #include "Ptrs.h"
 #include "Structs.h"
+#include "stl_extensions.h"
 #include <string>
-
 
 Level* GetUnitLevel(Unit* unit)
 {
@@ -147,5 +147,48 @@ __declspec(naked) void __cdecl D2GSE_EventLog(char const* format, ...)
         push ebx;
         ret;
     }
+}
+
+std::string FormatString(std::string const& msg)
+{
+    return std::ext::regex_replace(msg, std::regex("%[a-z]+%"), [](std::smatch const& m) -> std::string
+    {
+        std::string match = m[0];
+
+        if (match == "%weitem%")
+        {
+            auto weConfig = (*p_D2GS_GetWEConfig)();
+            return weConfig->isEnabled ? weConfig->worldEventItem : "<disabled>";
+        }
+
+        if (match == "%red%")
+            return COLOR_RED;
+        if (match == "%green%")
+            return COLOR_GREEN;
+        if (match == "%blue%")
+            return COLOR_BLUE;
+        if (match == "%gold%")
+            return COLOR_GOLD;
+        if (match == "%gray%")
+            return COLOR_GRAY;
+        if (match == "%black%")
+            return COLOR_BLACK;
+        if (match == "%darkyellow%")
+            return COLOR_DARK_YELLOW;
+        if (match == "%orange%")
+            return COLOR_ORANGE;
+        if (match == "%yellow%")
+            return COLOR_YELLOW;
+        if (match == "%purple%")
+            return COLOR_PURPLE;
+        if (match == "%darkgreen%")
+            return COLOR_DARK_GREEN_1;
+        if (match == "%common%")
+            return COLOR_COMMON;
+        if (match == "%white%")
+            return COLOR_BOLD_WHITE_5;
+
+        return m.str();
+    });
 }
 

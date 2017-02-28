@@ -625,4 +625,79 @@ struct D2CHARLIST
     D2CHARLIST* next;           // 0x18
 };  // size 0x1C
 
+enum class ConfigType : int
+{
+    Dword = 1,
+    Dword2 = 3,
+    String = 4,
+    Word = 9,
+    Ip = 10
+};
+
+enum D2GSConfigId
+{
+    D2CSIP = 0,
+    D2CSIP_String,
+    D2CSPort,
+    D2DBSIP,
+    D2DBSIP_String,
+    D2DBSPort,
+    EnableNTMode,
+    EnableGEPatch,
+    EnablePreCacheMode,
+    EnableGELog,
+    EnableGEMsg,
+    EnableGSLog,
+    DebugNetPacket,
+    DebugEventCallback,
+    IdleSleep,
+    BusySleep,
+    MaxGames,
+    MaxPreferUsers,
+    MaxGameLife,
+    MOTD,
+    CharPendingTimeout,
+    IntervalReconnectD2CS,
+    D2CSSecrect,
+    MultiCPUMask,
+    MaxPacketPerSecond,
+    ServerConfFile,
+    AdminPassword,
+    AdminPort,
+    AdminTimeout,
+    AutoUpdate,
+    AutoUpdateTimeout,
+    AutoUpdateVer,
+    AutoUpdateUrl,
+
+    // Custom
+    WEMotd,
+
+    CONFIG_MAX,
+    CONFIG_COUNT_DEFAULT = AutoUpdateUrl + 1,
+};
+
+struct D2GSConfigEntry
+{
+    char const* Entry = nullptr;
+    ConfigType ConfigType;
+    char const* Default;
+    void* Data;
+};
+
+static_assert(sizeof(D2GSConfigEntry) == 4 * 4, "Bad D2GSConfigEntry size");
+
+struct D2GSWEConfigInfo
+{
+    DWORD isEnabled;
+    DWORD baseCount;
+    DWORD currentCount;
+    DWORD lastSpawnCount;
+    DWORD nextSpawnCount;
+    DWORD lastSellTime;
+    DWORD lastSpawnTime;
+    DWORD totalSpawn;
+    char worldEventItem[128];
+};
+
 #pragma pack(pop)
